@@ -3,62 +3,61 @@ import java.util.Scanner;
 public class Duke {
     
     //print the horizontal line
-    public static void horizontalLine(){
+    public static void printHorizontalLine() {
         String STRAIGHT_LINE = "-------------------------------------------";
         System.out.println(STRAIGHT_LINE);
     }
 
     //print a welcome message
-    public static void welcomeMessage(){
-        horizontalLine();
+    public static void printWelcomeMessage() {
+        printHorizontalLine();
         System.out.println("Hello! I'm Duke");
         System.out.println("What can I do for you?\n");
-        horizontalLine();  
+        printHorizontalLine(); 
     }
     
     //print a goodbye message
-    public static void byeMessage(){
-        horizontalLine();
+    public static void printByeMessage() {
+        printHorizontalLine();
         System.out.println("Bye. Hope to see you again soon!\n");
-        horizontalLine();
+        printHorizontalLine();
     }
     
     //echo the message
-    public static void echoMessage(String message){
-        horizontalLine();
+    public static void echoMessage(String message) {
+        printHorizontalLine();
         System.out.println("added: " + message + "\n");
-        horizontalLine();
+        printHorizontalLine();
     }
     
     //echo the list
-    public static void echoList(Task[] tasks){
-        horizontalLine();
-
+    public static void echoList(Task[] tasks) {
+        printHorizontalLine();
         int index = 0;
         while (tasks[index] != null){
-            if (tasks[index].description.equals("list")){
+            if (tasks[index].description.equals("list")) {
                 break;
             }
-            
+
             System.out.println((index + 1) +". [" + tasks[index].getStatusIcon() + "] "
                     + tasks[index].description);
             index++;
         }
 
         System.out.println();
-        horizontalLine();
+        printHorizontalLine();
     }
 
     //change the status of the task
-    public static void changeStatus(Task task){
-        horizontalLine();
+    public static void changeStatus(Task task) {
+        printHorizontalLine();
         System.out.println("Nice! I've marked this task as done:");
         
         task.setIsDone(true);
         System.out.println(" [" + task.getStatusIcon() + "] " + task.description);
 
         System.out.println();
-        horizontalLine();
+        printHorizontalLine();
     }
 
     public static void main(String[] args) {
@@ -71,7 +70,7 @@ public class Duke {
         
         Scanner in = new Scanner(System.in);       
         
-        welcomeMessage();
+        printWelcomeMessage();
         
         Task[] tasks = new Task[100];
         int index = 0;
@@ -93,6 +92,6 @@ public class Duke {
             tasks[index] = new Task(in.nextLine());
         }
 
-        byeMessage();
+        printByeMessage();
     }
 }
