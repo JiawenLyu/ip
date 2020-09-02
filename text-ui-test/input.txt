@@ -1,0 +1,7 @@
+event football game /at Monday night
+deadline lab /by Friday
+todo watch movie
+list
+done 1
+list
+bye
