@@ -24,9 +24,11 @@ public class Duke {
     }
     
     //echo the message
-    public static void echoMessage(String message) {
+    public static void echoMessage(Task message, int index) {
         printHorizontalLine();
-        System.out.println("added: " + message + "\n");
+        System.out.println("Got it. I've added this task: ");
+        System.out.println(message.toString());
+        System.out.println("Now you have " + (index + 1) + " tasks in the list");
         printHorizontalLine();
     }
     
@@ -35,12 +37,7 @@ public class Duke {
         printHorizontalLine();
         int index = 0;
         while (tasks[index] != null){
-            if (tasks[index].description.equals("list")) {
-                break;
-            }
-
-            System.out.println((index + 1) +". [" + tasks[index].getStatusIcon() + "] "
-                    + tasks[index].description);
+            System.out.println((index + 1) + ". " + tasks[index].toString());
             index++;
         }
 
@@ -60,7 +57,29 @@ public class Duke {
         printHorizontalLine();
     }
 
+    public static Task createType(String message) {
+        String[] infoEntered = message.split(" ");
+        int nameLength;
+        switch (infoEntered[0]) {
+        case ("todo"):
+            nameLength = 4;
+            return new ToDo(message.substring(nameLength + 1));
+        case ("deadline"):
+            nameLength = 8;
+            int indexBy = message.indexOf("/");
+            return new Deadline(message.substring(nameLength + 1, indexBy - 1),
+                    message.substring(indexBy + 1));
+        case ("event"):
+            nameLength = 5;
+            int indexAt = message.indexOf("/");
+            return new Event(message.substring(nameLength + 1, indexAt - 1),
+                    message.substring(indexAt + 1));
+        default:
+            return null;
+        }
+    }
     public static void main(String[] args) {
+        
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
@@ -74,22 +93,20 @@ public class Duke {
         
         Task[] tasks = new Task[100];
         int index = 0;
+        String enteredMessage = in.nextLine();
 
-        tasks[index] = new Task(in.nextLine());
-        while (tasks[index] != null && !tasks[index].description.equals("bye")) {
-            if (tasks[index].description.equals("list")) {
+        while(!enteredMessage.equals("bye")){
+            if (enteredMessage.equals("list")){
                 echoList(tasks);
-                index--;
-            } else if (tasks[index].description.startsWith("done")) {
-                int itemIndex = Integer.parseInt(tasks[index].description.substring(5)) - 1;
+            } else if (enteredMessage.startsWith("done")) {
+                int itemIndex = Integer.parseInt(enteredMessage.substring(5)) - 1;
                 changeStatus(tasks[itemIndex]);
-                index--;
-            } else {
-                echoMessage(tasks[index].description);
+            } else de{
+                tasks[index] = createType(enteredMessage);
+                echoMessage(tasks[index], index);
+                index++;
             }
-
-            index++;
-            tasks[index] = new Task(in.nextLine());
+            enteredMessage = in.nextLine();
         }
 
         printByeMessage();
