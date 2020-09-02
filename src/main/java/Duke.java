@@ -1,6 +1,9 @@
 import java.util.Scanner;
 
 public class Duke {
+
+    public static final int MAX_SIZE = 100;
+
     //print the horizontal line
     public static void printHorizontalLine() {
         String STRAIGHT_LINE = "-------------------------------------------";
@@ -90,7 +93,7 @@ public class Duke {
         
         printWelcomeMessage();
         
-        Task[] tasks = new Task[100];
+        Task[] tasks = new Task[MAX_SIZE];
         int index = 0;
         String enteredMessage = in.nextLine();
 
@@ -98,7 +101,8 @@ public class Duke {
             if (enteredMessage.equals("list")){
                 echoList(tasks);
             } else if (enteredMessage.startsWith("done")) {
-                int itemIndex = Integer.parseInt(enteredMessage.substring(5)) - 1;
+                int numberIndex = 5;
+                int itemIndex = Integer.parseInt(enteredMessage.substring(numberIndex)) - 1;
                 changeStatus(tasks[itemIndex]);
             } else {
                 tasks[index] = createType(enteredMessage);
