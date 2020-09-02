@@ -1,7 +1,6 @@
 import java.util.Scanner;
 
 public class Duke {
-    
     //print the horizontal line
     public static void printHorizontalLine() {
         String STRAIGHT_LINE = "-------------------------------------------";
@@ -101,7 +100,7 @@ public class Duke {
             } else if (enteredMessage.startsWith("done")) {
                 int itemIndex = Integer.parseInt(enteredMessage.substring(5)) - 1;
                 changeStatus(tasks[itemIndex]);
-            } else de{
+            } else {
                 tasks[index] = createType(enteredMessage);
                 echoMessage(tasks[index], index);
                 index++;
