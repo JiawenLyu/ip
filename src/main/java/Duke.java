@@ -1,3 +1,8 @@
+import duke.task.Deadline;
+import duke.task.Event;
+import duke.task.Task;
+import duke.task.ToDo;
+
 import java.util.Scanner;
 
 public class Duke {
@@ -53,7 +58,7 @@ public class Duke {
         System.out.println("Nice! I've marked this task as done:");
         
         task.setIsDone(true);
-        System.out.println(" [" + task.getStatusIcon() + "] " + task.description);
+        System.out.println(task.toString());
 
         System.out.println();
         printHorizontalLine();
