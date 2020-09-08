@@ -3,10 +3,10 @@ import java.util.Scanner;
 public class Duke {
 
     public static final int MAX_SIZE = 100;
+    public static final String STRAIGHT_LINE = "-------------------------------------------";
 
     //print the horizontal line
     public static void printHorizontalLine() {
-        String STRAIGHT_LINE = "-------------------------------------------";
         System.out.println(STRAIGHT_LINE);
     }
 
@@ -38,7 +38,7 @@ public class Duke {
     public static void echoList(Task[] tasks) {
         printHorizontalLine();
         int index = 0;
-        while (tasks[index] != null){
+        while (tasks[index] != null) {
             System.out.println((index + 1) + ". " + tasks[index].toString());
             index++;
         }
@@ -62,24 +62,44 @@ public class Duke {
     public static Task createType(String message) {
         String[] infoEntered = message.split(" ");
         int nameLength;
-        switch (infoEntered[0]) {
-        case ("todo"):
-            nameLength = 4;
-            return new ToDo(message.substring(nameLength + 1));
-        case ("deadline"):
-            nameLength = 8;
-            int indexBy = message.indexOf("/");
-            return new Deadline(message.substring(nameLength + 1, indexBy - 1),
-                    message.substring(indexBy + 1));
-        case ("event"):
-            nameLength = 5;
-            int indexAt = message.indexOf("/");
-            return new Event(message.substring(nameLength + 1, indexAt - 1),
-                    message.substring(indexAt + 1));
-        default:
+        try {
+            switch (infoEntered[0]) {
+            case ("todo"):
+                nameLength = 4;
+                if (message.equals("todo")) {
+                    throw new DukeException();
+                }
+                return new ToDo(message.substring(nameLength + 1));
+            case ("deadline"):
+                nameLength = 8;
+                if (message.equals("deadline")) {
+                    throw new DukeException();
+                }
+                int indexBy = message.indexOf("/");
+                return new Deadline(message.substring(nameLength + 1, indexBy - 1),
+                        message.substring(indexBy + 4));
+            case ("event"):
+                nameLength = 5;
+                if (message.equals("event")) {
+                    throw new DukeException();
+                }
+                int indexAt = message.indexOf("/");
+                return new Event(message.substring(nameLength + 1, indexAt - 1),
+                        message.substring(indexAt + 4));
+            default:
+                printHorizontalLine();
+                System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(\n");
+                printHorizontalLine();
+                return null;
+            }
+        } catch (DukeException e){
+            printHorizontalLine();
+            System.out.println("☹ OOPS!!! The description cannot be empty.\n");
+            printHorizontalLine();
             return null;
         }
     }
+
     public static void main(String[] args) {
         
         String logo = " ____        _        \n"
@@ -92,25 +112,32 @@ public class Duke {
         Scanner in = new Scanner(System.in);       
         
         printWelcomeMessage();
-        
         Task[] tasks = new Task[MAX_SIZE];
-        int index = 0;
         String enteredMessage = in.nextLine();
 
-        while(!enteredMessage.equals("bye")){
-            if (enteredMessage.equals("list")){
-                echoList(tasks);
-            } else if (enteredMessage.startsWith("done")) {
-                int numberIndex = 5;
-                int itemIndex = Integer.parseInt(enteredMessage.substring(numberIndex)) - 1;
-                changeStatus(tasks[itemIndex]);
-            } else {
-                tasks[index] = createType(enteredMessage);
-                echoMessage(tasks[index], index);
-                index++;
+        int index = 0;
+            while (!enteredMessage.equals("bye") && index < MAX_SIZE) {
+                if (enteredMessage.equals("list")) {
+                    echoList(tasks);
+                } else if (enteredMessage.startsWith("done")) {
+                    try {
+                        int numberIndex = 5;
+                        int itemIndex = Integer.parseInt(enteredMessage.substring(numberIndex)) - 1;
+                        changeStatus(tasks[itemIndex]);
+                    } catch (NumberFormatException e) {
+                        printHorizontalLine();
+                        System.out.println("☹ OOPS!!! The description cannot be empty.\n");
+                        printHorizontalLine();
+                    }
+                } else {
+                    tasks[index] = createType(enteredMessage);
+                    if (tasks[index] != null) {
+                        echoMessage(tasks[index], index);
+                        index++;
+                    }
+                }
+                enteredMessage = in.nextLine();
             }
-            enteredMessage = in.nextLine();
-        }
 
         printByeMessage();
     }
