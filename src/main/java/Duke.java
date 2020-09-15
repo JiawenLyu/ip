@@ -4,11 +4,65 @@ import duke.task.Task;
 import duke.task.ToDo;
 
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.FileNotFoundException;
 
 public class Duke {
 
     public static final int MAX_SIZE = 100;
+    static Task[] tasks = new Task[MAX_SIZE];
     public static final String STRAIGHT_LINE = "-------------------------------------------";
+    public static final String FILE_PATH = "duke.txt";
+    static int taskIndex = 0;
+
+    //write to the file
+    public static void saveToFile(String FILE_PATH){
+        try{
+            File f = new File(FILE_PATH);
+            FileWriter fw = new FileWriter(FILE_PATH);
+            for (int i = 0; i < taskIndex; i++){
+                fw.write(tasks[i].saveToFile());
+            }
+            fw.close();
+        } catch (IOException e){
+            System.out.println("Something went wrong: " + e.getMessage());
+        }
+    }
+
+    //load from file
+    public static void loadFromFile(String FILE_PATH){
+        try{
+            File f = new File(FILE_PATH);
+            Scanner s = new Scanner(f);
+            Task task;
+            while(s.hasNext()){
+                String[] readTask = s.nextLine().split(" | ");
+                switch (readTask[0]) {
+                case ("T"):
+                    task = new ToDo(readTask[2]);
+                    break;
+                case ("D"):
+                    task = new Deadline(readTask[2], readTask[3]);
+                    break;
+                case ("E"):
+                    task = new Event(readTask[2], readTask[3]);
+                    break;
+                default:
+                    task = new Task(readTask[2]);
+                }
+
+                if (readTask[1].equals("true")){
+                    task.setIsDone(true);
+                }
+                tasks[taskIndex] = task;
+                taskIndex++;
+            }
+        } catch (FileNotFoundException e){
+            System.out.println("File not found");
+        }
+    }
 
     //print the horizontal line
     public static void printHorizontalLine() {
@@ -113,15 +167,15 @@ public class Duke {
                 + "| |_| | |_| |   <  __/\n"
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println("Hello from\n" + logo);
+
+        loadFromFile(FILE_PATH);
         
         Scanner in = new Scanner(System.in);       
         
         printWelcomeMessage();
-        Task[] tasks = new Task[MAX_SIZE];
         String enteredMessage = in.nextLine();
 
-        int index = 0;
-            while (!enteredMessage.equals("bye") && index < MAX_SIZE) {
+            while (!enteredMessage.equals("bye") && taskIndex < MAX_SIZE) {
                 if (enteredMessage.equals("list")) {
                     echoList(tasks);
                 } else if (enteredMessage.startsWith("done")) {
@@ -134,12 +188,14 @@ public class Duke {
                         System.out.println("☹ OOPS!!! The description cannot be empty.\n");
                         printHorizontalLine();
                     }
+                    saveToFile(FILE_PATH);
                 } else {
-                    tasks[index] = createType(enteredMessage);
-                    if (tasks[index] != null) {
-                        echoMessage(tasks[index], index);
-                        index++;
+                    tasks[taskIndex] = createType(enteredMessage);
+                    if (tasks[taskIndex] != null) {
+                        echoMessage(tasks[taskIndex], taskIndex);
+                        taskIndex++;
                     }
+                    saveToFile(FILE_PATH);
                 }
                 enteredMessage = in.nextLine();
             }

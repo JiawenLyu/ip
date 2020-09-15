@@ -1,0 +1,3 @@
+T | false | false
+T | false | true
+D | true | lab | tmr

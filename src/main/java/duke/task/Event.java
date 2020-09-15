@@ -8,6 +8,11 @@ public class Event extends Task {
     }
 
     @Override
+    public String saveToFile(){
+        return "E | " + isDone + " | " + this.description + " | " + this.at + "\n";
+    }
+
+    @Override
     public String toString(){
         return "[E]" + super.toString() + " (at: " + at + ")";
     }
