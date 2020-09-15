@@ -4,6 +4,7 @@ import duke.task.Task;
 import duke.task.ToDo;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Duke {
 
@@ -20,16 +21,16 @@ public class Duke {
         printHorizontalLine();
         System.out.println("Hello! I'm Duke");
         System.out.println("What can I do for you?\n");
-        printHorizontalLine(); 
+        printHorizontalLine();
     }
-    
+
     //print a goodbye message
     public static void printByeMessage() {
         printHorizontalLine();
         System.out.println("Bye. Hope to see you again soon!\n");
         printHorizontalLine();
     }
-    
+
     //echo the message
     public static void echoMessage(Task message, int index) {
         printHorizontalLine();
@@ -38,13 +39,13 @@ public class Duke {
         System.out.println("Now you have " + (index + 1) + " tasks in the list");
         printHorizontalLine();
     }
-    
+
     //echo the list
-    public static void echoList(Task[] tasks) {
+    public static void echoList(ArrayList<Task> tasks) {
         printHorizontalLine();
         int index = 0;
-        while (tasks[index] != null) {
-            System.out.println((index + 1) + ". " + tasks[index].toString());
+        for (Task task : tasks) {
+            System.out.println((index + 1) + ". " + task.toString());
             index++;
         }
 
@@ -56,7 +57,7 @@ public class Duke {
     public static void changeStatus(Task task) {
         printHorizontalLine();
         System.out.println("Nice! I've marked this task as done:");
-        
+
         task.setIsDone(true);
         System.out.println(task.toString());
 
@@ -71,13 +72,13 @@ public class Duke {
             switch (infoEntered[0]) {
             case ("todo"):
                 nameLength = 4;
-                if (message.equals("todo")) {
+                if (infoEntered.length == 1) {
                     throw new DukeException();
                 }
                 return new ToDo(message.substring(nameLength + 1));
             case ("deadline"):
                 nameLength = 8;
-                if (message.equals("deadline")) {
+                if (infoEntered.length == 1) {
                     throw new DukeException();
                 }
                 int indexBy = message.indexOf("/");
@@ -85,7 +86,7 @@ public class Duke {
                         message.substring(indexBy + 4));
             case ("event"):
                 nameLength = 5;
-                if (message.equals("event")) {
+                if (infoEntered.length == 1) {
                     throw new DukeException();
                 }
                 int indexAt = message.indexOf("/");
@@ -97,7 +98,7 @@ public class Duke {
                 printHorizontalLine();
                 return null;
             }
-        } catch (DukeException e){
+        } catch (DukeException e) {
             printHorizontalLine();
             System.out.println("☹ OOPS!!! The description cannot be empty.\n");
             printHorizontalLine();
@@ -105,45 +106,62 @@ public class Duke {
         }
     }
 
+    public static void deleteItems(ArrayList<Task> tasks, int index) {
+        printHorizontalLine();
+        System.out.println("Noted. I've removed this task: ");
+        System.out.println(tasks.get(index).toString());
+
+        tasks.remove(tasks.get(index));
+
+        System.out.println("Now you have " + tasks.size() + " items in the list.\n");
+        printHorizontalLine();
+    }
+
     public static void main(String[] args) {
-        
+
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
                 + "| |_| | |_| |   <  __/\n"
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println("Hello from\n" + logo);
-        
-        Scanner in = new Scanner(System.in);       
-        
+
+        Scanner in = new Scanner(System.in);
+
         printWelcomeMessage();
-        Task[] tasks = new Task[MAX_SIZE];
+
+        ArrayList<Task> tasks = new ArrayList<>();
+
         String enteredMessage = in.nextLine();
-
         int index = 0;
-            while (!enteredMessage.equals("bye") && index < MAX_SIZE) {
-                if (enteredMessage.equals("list")) {
-                    echoList(tasks);
-                } else if (enteredMessage.startsWith("done")) {
-                    try {
-                        int numberIndex = 5;
-                        int itemIndex = Integer.parseInt(enteredMessage.substring(numberIndex)) - 1;
-                        changeStatus(tasks[itemIndex]);
-                    } catch (NumberFormatException e) {
-                        printHorizontalLine();
-                        System.out.println("☹ OOPS!!! The description cannot be empty.\n");
-                        printHorizontalLine();
-                    }
-                } else {
-                    tasks[index] = createType(enteredMessage);
-                    if (tasks[index] != null) {
-                        echoMessage(tasks[index], index);
-                        index++;
-                    }
+        while (!enteredMessage.equals("bye") && index < MAX_SIZE) {
+            if (enteredMessage.equals("list")) {
+                echoList(tasks);
+            } else if (enteredMessage.startsWith("done")) {
+                try {
+                    int numberIndex = 5;
+                    int itemIndex = Integer.parseInt(enteredMessage.substring(numberIndex)) - 1;
+                    changeStatus(tasks.get(itemIndex));
+                } catch (NumberFormatException e) {
+                    printHorizontalLine();
+                    System.out.println("☹ OOPS!!! The description cannot be empty.\n");
+                    printHorizontalLine();
                 }
-                enteredMessage = in.nextLine();
+            } else if (enteredMessage.startsWith("delete")) {
+                int numberIndex = 7;
+                int itemIndex = Integer.parseInt(enteredMessage.substring(numberIndex)) - 1;
+                deleteItems(tasks, itemIndex);
+                index--;
+            } else {
+                Task newTask = createType(enteredMessage);
+                if (newTask != null) {
+                    tasks.add(newTask);
+                    echoMessage(newTask, index);
+                    index++;
+                }
             }
-
+            enteredMessage = in.nextLine();
+        }
         printByeMessage();
     }
 }
