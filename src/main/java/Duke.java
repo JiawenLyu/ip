@@ -5,11 +5,65 @@ import duke.task.ToDo;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.FileNotFoundException;
 
 public class Duke {
 
-    public static final int MAX_SIZE = 100;
     public static final String STRAIGHT_LINE = "-------------------------------------------";
+    public static final String FILE_PATH = "duke.txt";
+    public static ArrayList<Task> tasks = new ArrayList<>();
+
+    //write to the file
+    public static void saveToFile(String FILE_PATH){
+        try{
+            File f = new File(FILE_PATH);
+            FileWriter fw = new FileWriter(FILE_PATH);
+            /*for (int i = 0; i < taskIndex; i++){
+                fw.write(tasks[i].saveToFile());
+            }*/
+            for (Task task: tasks){
+                fw.write(task.saveToFile());
+            }
+            fw.close();
+        } catch (IOException e){
+            System.out.println("Something went wrong: " + e.getMessage());
+        }
+    }
+
+    //load from file
+    public static void loadFromFile(String FILE_PATH){
+        try{
+            File f = new File(FILE_PATH);
+            Scanner s = new Scanner(f);
+            Task task;
+            while(s.hasNext()){
+                String[] readTask = s.nextLine().split("\\|");
+                switch (readTask[0]) {
+                case ("T"):
+                    task = new ToDo(readTask[2]);
+                    break;
+                case ("D"):
+                    task = new Deadline(readTask[2], readTask[3]);
+                    break;
+                case ("E"):
+                    task = new Event(readTask[2], readTask[3]);
+                    break;
+                default:
+                    task = new Task(readTask[2]);
+                }
+
+                if (readTask[1].equals("true")){
+                    task.setIsDone(true);
+                }
+                tasks.add(task);
+            }
+        } catch (FileNotFoundException e){
+            System.out.println("File not found");
+        }
+    }
 
     //print the horizontal line
     public static void printHorizontalLine() {
@@ -36,7 +90,7 @@ public class Duke {
         printHorizontalLine();
         System.out.println("Got it. I've added this task: ");
         System.out.println(message.toString());
-        System.out.println("Now you have " + (index + 1) + " tasks in the list");
+        System.out.println("Now you have " + index + " tasks in the list");
         printHorizontalLine();
     }
 
@@ -126,15 +180,13 @@ public class Duke {
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println("Hello from\n" + logo);
 
+        loadFromFile(FILE_PATH);
         Scanner in = new Scanner(System.in);
 
         printWelcomeMessage();
 
-        ArrayList<Task> tasks = new ArrayList<>();
-
         String enteredMessage = in.nextLine();
-        int index = 0;
-        while (!enteredMessage.equals("bye") && index < MAX_SIZE) {
+        while (!enteredMessage.equals("bye")) {
             if (enteredMessage.equals("list")) {
                 echoList(tasks);
             } else if (enteredMessage.startsWith("done")) {
@@ -142,6 +194,7 @@ public class Duke {
                     int numberIndex = 5;
                     int itemIndex = Integer.parseInt(enteredMessage.substring(numberIndex)) - 1;
                     changeStatus(tasks.get(itemIndex));
+                    saveToFile(FILE_PATH);
                 } catch (NumberFormatException e) {
                     printHorizontalLine();
                     System.out.println("☹ OOPS!!! The description cannot be empty.\n");
@@ -151,13 +204,13 @@ public class Duke {
                 int numberIndex = 7;
                 int itemIndex = Integer.parseInt(enteredMessage.substring(numberIndex)) - 1;
                 deleteItems(tasks, itemIndex);
-                index--;
+                saveToFile(FILE_PATH);
             } else {
                 Task newTask = createType(enteredMessage);
                 if (newTask != null) {
                     tasks.add(newTask);
-                    echoMessage(newTask, index);
-                    index++;
+                    echoMessage(newTask, tasks.size());
+                    saveToFile(FILE_PATH);
                 }
             }
             enteredMessage = in.nextLine();
