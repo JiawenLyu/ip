@@ -21,9 +21,6 @@ public class Duke {
         try{
             File f = new File(FILE_PATH);
             FileWriter fw = new FileWriter(FILE_PATH);
-            /*for (int i = 0; i < taskIndex; i++){
-                fw.write(tasks[i].saveToFile());
-            }*/
             for (Task task: tasks){
                 fw.write(task.saveToFile());
             }
@@ -37,6 +34,9 @@ public class Duke {
     public static void loadFromFile(String FILE_PATH){
         try{
             File f = new File(FILE_PATH);
+            if (!f.exists()){
+                f.createNewFile();
+            }
             Scanner s = new Scanner(f);
             Task task;
             while(s.hasNext()){
@@ -62,6 +62,9 @@ public class Duke {
             }
         } catch (FileNotFoundException e){
             System.out.println("File not found");
+        } catch (IOException e){
+            e.printStackTrace();
+            System.out.println("File creation failed");
         }
     }
 
@@ -132,7 +135,7 @@ public class Duke {
                 return new ToDo(message.substring(nameLength + 1));
             case ("deadline"):
                 nameLength = 8;
-                if (infoEntered.length == 1) {
+                if (infoEntered.length == 1 || !message.contains("/by")) {
                     throw new DukeException();
                 }
                 int indexBy = message.indexOf("/");
@@ -140,7 +143,7 @@ public class Duke {
                         message.substring(indexBy + 4));
             case ("event"):
                 nameLength = 5;
-                if (infoEntered.length == 1) {
+                if (infoEntered.length == 1 || !message.contains("/at")) {
                     throw new DukeException();
                 }
                 int indexAt = message.indexOf("/");
@@ -154,7 +157,7 @@ public class Duke {
             }
         } catch (DukeException e) {
             printHorizontalLine();
-            System.out.println("☹ OOPS!!! The description cannot be empty.\n");
+            System.out.println("☹ OOPS!!! The description cannot be empty or invalid.\n");
             printHorizontalLine();
             return null;
         }
@@ -201,10 +204,19 @@ public class Duke {
                     printHorizontalLine();
                 }
             } else if (enteredMessage.startsWith("delete")) {
-                int numberIndex = 7;
-                int itemIndex = Integer.parseInt(enteredMessage.substring(numberIndex)) - 1;
-                deleteItems(tasks, itemIndex);
-                saveToFile(FILE_PATH);
+                try {
+                    int numberIndex = 7;
+                    int itemIndex = Integer.parseInt(enteredMessage.substring(numberIndex)) - 1;
+                    if (itemIndex > tasks.size()) {
+                        throw new DukeException();
+                    }
+                    deleteItems(tasks, itemIndex);
+                    saveToFile(FILE_PATH);
+                } catch (DukeException e){
+                    printHorizontalLine();
+                    System.out.println("☹ OOPS!!! The index is invalid.\n");
+                    printHorizontalLine();
+                }
             } else {
                 Task newTask = createType(enteredMessage);
                 if (newTask != null) {

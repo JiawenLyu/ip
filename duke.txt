@@ -1,2 +1,1 @@
-T|true|watch tv
-D|false|lab|tmr
+
