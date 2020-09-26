@@ -16,20 +16,20 @@ public class TaskList {
         tasks.add(task);
     }
 
+
     public void delete(String command){
-        int numberIndex = 6;
-        int index = Integer.parseInt(command.substring(numberIndex + 1)) - 1;
+        int numberIndex = 7;
+        int index = Integer.parseInt(command.substring(numberIndex)) - 1;
         try {
-            if (index > tasks.size()){
+            if (index > tasks.size() - 1 || index < 0){
                 throw new DukeException();
-            } else {
-                Ui.printHorizontalLine();
-                System.out.println("Noted. I've removed this task: ");
-                System.out.println(tasks.get(index).toString());
-                tasks.remove(index);
-                System.out.println("Now you have " + tasks.size() + " items in the list.\n");
-                Ui.printHorizontalLine();
             }
+            Ui.printHorizontalLine();
+            System.out.println("Noted. I've removed this task: ");
+            System.out.println(tasks.get(index).toString());
+            tasks.remove(index);
+            System.out.println("Now you have " + tasks.size() + " items in the list.\n");
+            Ui.printHorizontalLine();
          } catch (DukeException e) {
             Ui.printHorizontalLine();
             System.out.println("OOPS!!! The index is invalid.\n");
@@ -55,8 +55,8 @@ public class TaskList {
     public void done(String command){
         int numberIndex = 5;
         int itemIndex = Integer.parseInt(command.substring(numberIndex)) - 1;
-        try{
-            if (itemIndex > tasks.size()){
+        try {
+            if (itemIndex > tasks.size() - 1 || itemIndex < 0){
                 throw new DukeException();
             } else {
                 Ui.printHorizontalLine();

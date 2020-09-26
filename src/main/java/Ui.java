@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class Ui {
     public static final String STRAIGHT_LINE = "-------------------------------------------";
+    private Parser parser;
 
     //print the horizontal line
     public static void printHorizontalLine() {
@@ -29,7 +30,7 @@ public class Ui {
         String enteredMessage;
         while (in.hasNextLine()) {
             enteredMessage = in.nextLine();
-            String head = Parser.getBehavior(enteredMessage);
+            String head = parser.getBehavior(enteredMessage);
             if (head != null) {
                 switch (head) {
                 case "list":
