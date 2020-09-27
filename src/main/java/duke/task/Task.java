@@ -1,5 +1,6 @@
 package duke.task;
 
+
 public class Task {
     protected String description;
     protected boolean isDone;
@@ -12,6 +13,14 @@ public class Task {
         this.isDone = false;
     }
 
+    /**
+     * Get the description of the task
+     *
+     * @return string description of the task
+     */
+    public String getDescription(){
+        return description;
+    }
     public String getStatusIcon() {
         return (isDone ? "\u2713" : "\u2718");
     }

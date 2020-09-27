@@ -1,9 +1,14 @@
+package duke.oop;
+
 import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
 import duke.task.ToDo;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public class TaskList {
     private static ArrayList<Task> tasks;
@@ -149,6 +154,22 @@ public class TaskList {
         System.out.println("Got it. I've added this task: ");
         System.out.println(task.toString());
         System.out.println("Now you have " + tasks.size() + " tasks in the list");
+        Ui.printHorizontalLine();
+    }
+
+    public static void findTasks(String command){
+        int nameLength = 4;
+        String keyWord = command.substring(nameLength + 1);
+        ArrayList<Task> keywordTasks = (ArrayList<Task>) tasks.stream()
+                .filter((t) -> t.getDescription().contains(keyWord))
+                .collect(Collectors.toList());
+        Ui.printHorizontalLine();
+        System.out.println("Here are the matching tasks in your list:");
+        int index = 1;
+        for (Task task : keywordTasks) {
+            System.out.println(index + "." + task);
+        }
+        System.out.println();
         Ui.printHorizontalLine();
     }
 }

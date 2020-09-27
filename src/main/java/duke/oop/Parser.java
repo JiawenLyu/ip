@@ -1,3 +1,8 @@
+package duke.oop;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Parser {
     private static String command;
@@ -8,6 +13,7 @@ public class Parser {
     private static final String EVENT = "event";
     private static final String DELETE = "delete";
     private static final String DONE = "done";
+    private static final String FIND = "find";
 
     /**
      * A constructor to initialise a parser with command.
@@ -56,6 +62,11 @@ public class Parser {
                     throw new DukeException();
                 }
                 return DONE;
+            } else if (command.startsWith(FIND)){
+                if (infoEntered.length == 1) {
+                    throw new DukeException();
+                }
+                return FIND;
             } else {
                 Ui.printHorizontalLine();
                 System.out.println("OOPS!!! I'm sorry, but I don't know what that means :-(\n");
@@ -68,5 +79,17 @@ public class Parser {
             Ui.printHorizontalLine();
             return null;
         }
+    }
+
+    public static String setDateFormat(String date){
+        LocalDate d;
+        String dateFormatted = date;
+        try {
+            d = LocalDate.parse(date);
+            dateFormatted = d.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+        } catch (DateTimeParseException e){
+            dateFormatted = date;
+        }
+        return dateFormatted;
     }
 }

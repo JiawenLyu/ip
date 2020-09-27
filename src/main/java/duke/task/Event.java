@@ -1,7 +1,9 @@
 package duke.task;
+import duke.oop.Parser;
 
 public class Event extends Task {
     protected String at;
+    protected Parser parser;
 
     /**
      * A constructor of the event task
@@ -11,7 +13,7 @@ public class Event extends Task {
      */
     public Event(String description, String at){
         super(description);
-        this.at = at;
+        this.at = parser.setDateFormat(at);
     }
 
     /**

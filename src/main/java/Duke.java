@@ -1,3 +1,8 @@
+
+import duke.oop.Storage;
+import duke.oop.TaskList;
+import duke.oop.Ui;
+
 /**
  * Main class of the application.
  * A task manager to manage tasks including deadlines, todos, and events.

@@ -1,3 +1,5 @@
+package duke.oop;
+
 import java.util.Scanner;
 
 public class Ui {
@@ -67,6 +69,9 @@ public class Ui {
                 case "bye":
                     Ui.printByeMessage();
                     return;
+                case "find":
+                    tasks.findTasks(enteredMessage);
+                    break;
                 default:
                     break;
                 }
