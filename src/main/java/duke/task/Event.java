@@ -1,10 +1,13 @@
 package duke.task;
+import duke.oop.Parser;
 
 public class Event extends Task {
     protected String at;
+    protected Parser parser;
+
     public Event(String description, String at){
         super(description);
-        this.at = at;
+        this.at = parser.setDateFormat(at);
     }
 
     @Override
