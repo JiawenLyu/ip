@@ -6,12 +6,14 @@ public class Ui {
     public static final String STRAIGHT_LINE = "-------------------------------------------";
     private Parser parser;
 
-    //print the horizontal line
+
     public static void printHorizontalLine() {
         System.out.println(STRAIGHT_LINE);
     }
 
-    //print a welcome message
+    /**
+     * Welcome users when the program starts.
+     */
     public static void printWelcomeMessage() {
         printHorizontalLine();
         System.out.println("Hello! I'm Duke");
@@ -19,14 +21,21 @@ public class Ui {
         printHorizontalLine();
     }
 
-    //print a goodbye message
+    /**
+     * Say goodbye to users before exits when the program ends.
+     */
     public static void printByeMessage() {
         printHorizontalLine();
         System.out.println("Bye. Hope to see you again soon!\n");
         printHorizontalLine();
     }
 
-    //deal with the input
+    /**
+     * Get user inputs and deal with the commands.
+     * Update the information about tasks on task list and the file once the information of tasks changes.
+     *
+     * @param tasks taskList contains all the information about current tasks.
+     */
     public void dealWithInput(TaskList tasks){
         Scanner in = new Scanner(System.in);
         String enteredMessage;
