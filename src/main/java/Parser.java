@@ -8,6 +8,7 @@ public class Parser {
     private static final String EVENT = "event";
     private static final String DELETE = "delete";
     private static final String DONE = "done";
+    private static final String FIND = "find";
 
     public Parser(String command){
         this.command = command;
@@ -45,6 +46,11 @@ public class Parser {
                     throw new DukeException();
                 }
                 return DONE;
+            } else if (command.startsWith(FIND)){
+                if (infoEntered.length == 1) {
+                    throw new DukeException();
+                }
+                return FIND;
             } else {
                 Ui.printHorizontalLine();
                 System.out.println("OOPS!!! I'm sorry, but I don't know what that means :-(\n");
