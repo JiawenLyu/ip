@@ -9,10 +9,21 @@ public class Parser {
     private static final String DELETE = "delete";
     private static final String DONE = "done";
 
+    /**
+     * A constructor to initialise a parser with command.
+     *
+     * @param command command of the parser
+     */
     public Parser(String command){
         this.command = command;
     }
 
+    /**
+     * Parse command to get the behavior.
+     *
+     * @param command user command
+     * @return corresponding type of command
+     */
     public static String getBehavior(String command) {
         String[] infoEntered = command.split(" ");
         try {

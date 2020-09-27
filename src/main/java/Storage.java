@@ -19,7 +19,11 @@ public class Storage {
         f = new File(filepath);
     }
 
-    //write to the file
+    /**
+     * Save the information of all the tasks to the file.
+     *
+     * @param tasks task list contains all the information about the tasks
+     */
     public static void saveToFile(TaskList tasks){
         try{
             FileWriter fw = new FileWriter(filepath);
@@ -35,7 +39,11 @@ public class Storage {
         }
     }
 
-    //load from file
+    /**
+     * Load all the information about tasks to the file
+     *
+     * @param tasks the task list to load the the information to
+     */
     public void loadFromFile(TaskList tasks){
         try{
             if (!f.exists()){
