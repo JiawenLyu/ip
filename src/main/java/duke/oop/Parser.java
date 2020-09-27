@@ -81,9 +81,16 @@ public class Parser {
         }
     }
 
+    /**
+     * Set the user input date from a string to a meaningful date.
+     *
+     * @param date string from user input
+     * @return string of a meaningful date if the input is in "MMM d yyyy" format,
+     * or the original input otherwise
+     */
     public static String setDateFormat(String date){
         LocalDate d;
-        String dateFormatted = date;
+        String dateFormatted;
         try {
             d = LocalDate.parse(date);
             dateFormatted = d.format(DateTimeFormatter.ofPattern("MMM d yyyy"));

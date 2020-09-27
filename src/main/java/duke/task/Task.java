@@ -21,6 +21,7 @@ public class Task {
     public String getDescription(){
         return description;
     }
+
     public String getStatusIcon() {
         return (isDone ? "\u2713" : "\u2718");
     }
@@ -43,6 +44,11 @@ public class Task {
         return "T|" + isDone + "|" + this.description + "\n";
     }
 
+    /**
+     * Print the information of the task in a format
+     *
+     * @return the string contains the information of the task
+     */
     @Override
     public String toString(){
         return "[" + this.getStatusIcon() + "]" + this.description;
