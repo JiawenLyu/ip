@@ -60,6 +60,9 @@ public class Ui {
                 case "bye":
                     Ui.printByeMessage();
                     return;
+                case "find":
+                    tasks.findTasks(enteredMessage);
+                    break;
                 default:
                     break;
                 }
