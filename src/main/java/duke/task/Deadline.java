@@ -1,10 +1,12 @@
 package duke.task;
-
+import duke.oop.Parser;
 public class Deadline extends Task {
     protected String by;
+    protected Parser parser;
+
     public Deadline(String description, String by){
         super(description);
-        this.by = by;
+        this.by = parser.setDateFormat(by);
     }
 
     @Override

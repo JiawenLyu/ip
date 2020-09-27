@@ -1,3 +1,7 @@
+import duke.oop.Storage;
+import duke.oop.TaskList;
+import duke.oop.Ui;
+
 public class Duke {
 
     private static final String FILEPATH = "duke.txt";

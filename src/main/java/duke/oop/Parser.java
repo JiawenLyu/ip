@@ -1,3 +1,8 @@
+package duke.oop;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Parser {
     private static String command;
@@ -57,5 +62,17 @@ public class Parser {
             Ui.printHorizontalLine();
             return null;
         }
+    }
+
+    public static String setDateFormat(String date){
+        LocalDate d;
+        String dateFormatted = date;
+        try {
+            d = LocalDate.parse(date);
+            dateFormatted = d.format(DateTimeFormatter.ofPattern("MMM d yyyy"));
+        } catch (DateTimeParseException e){
+            dateFormatted = date;
+        }
+        return dateFormatted;
     }
 }
