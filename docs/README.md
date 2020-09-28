@@ -44,6 +44,8 @@ You can use `bye` to exit Duke.
 
 Enter `event` task with a description and its date/time to add an event task.
 
+Enter `\at` between the description and date/time. 
+
 Example of usage: 
 
 `event project meeting /at Mon 2-4 pm`
@@ -79,6 +81,8 @@ Now you have 2 tasks in the list
 ### `deadline` - Add a deadline task
 
 Enter a `deadline` task with a description and its due date/time to add a deadline event.
+
+Enter `\by` between the description and due date/time. 
 
 Example of usage: 
 
