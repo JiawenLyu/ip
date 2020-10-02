@@ -57,6 +57,7 @@ Expected outcome:
  Got it. I've added this task: 
  [E][✘]project meeting (at: Mon 2-4 pm)
  Now you have 1 tasks in the list
+
  -------------------------------------------
 ```
 
@@ -75,6 +76,7 @@ Expected outcome:
 Got it. I've added this task: 
 [T][✘]borrow book
 Now you have 2 tasks in the list
+
 -------------------------------------------
 ```
 
@@ -95,6 +97,7 @@ Expected outcome:
  Got it. I've added this task: 
  [D][✘]return book (by: Sunday)
  Now you have 3 tasks in the list
+
  -------------------------------------------
  ```
 

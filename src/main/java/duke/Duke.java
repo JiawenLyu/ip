@@ -31,7 +31,7 @@ public class Duke {
     /**
      * Run the program.
      */
-    public void run(){
+    public void run() {
         storage.loadFromFile(tasks);
         ui.printWelcomeMessage();
         ui.dealWithInput(tasks);

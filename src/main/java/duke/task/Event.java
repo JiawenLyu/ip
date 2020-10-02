@@ -11,7 +11,7 @@ public class Event extends Task {
      * @param description the String description of the task
      * @param at the date and time of the task
      */
-    public Event(String description, String at){
+    public Event(String description, String at) {
         super(description);
         this.at = parser.setDateFormat(at);
     }

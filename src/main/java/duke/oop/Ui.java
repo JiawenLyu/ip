@@ -36,7 +36,7 @@ public class Ui {
      *
      * @param tasks taskList contains all the information about current tasks.
      */
-    public void dealWithInput(TaskList tasks){
+    public void dealWithInput(TaskList tasks) {
         Scanner in = new Scanner(System.in);
         String enteredMessage;
         while (in.hasNextLine()) {

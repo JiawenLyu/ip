@@ -8,8 +8,6 @@ import duke.task.ToDo;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
-
 public class TaskList {
     private static ArrayList<Task> tasks;
 
@@ -34,11 +32,11 @@ public class TaskList {
      *
      * @param command the delete command with the index of the task to be deleted
      */
-    public void delete(String command){
+    public void delete(String command) {
         int numberIndex = 7;
         int index = Integer.parseInt(command.substring(numberIndex)) - 1;
         try {
-            if (index > tasks.size() - 1 || index < 0){
+            if (index > tasks.size() - 1 || index < 0) {
                 throw new DukeException();
             }
             Ui.printHorizontalLine();
@@ -82,7 +80,7 @@ public class TaskList {
      *
      * @param command the done command with the index of the task to be mark as done
      */
-    public void done(String command){
+    public void done(String command) {
         int numberIndex = 5;
         int itemIndex = Integer.parseInt(command.substring(numberIndex)) - 1;
         try {
@@ -99,6 +97,7 @@ public class TaskList {
         } catch (DukeException e) {
             Ui.printHorizontalLine();
             System.out.println("OOPS!!! The index is invalid.\n");
+            System.out.println();
             Ui.printHorizontalLine();
         }
     }
@@ -108,7 +107,7 @@ public class TaskList {
      *
      * @param command the todo command with the description of the todo task
      */
-    public void addTodo(String command){
+    public void addTodo(String command) {
         int nameLength = 4;
         Task task = new ToDo(command.substring(nameLength + 1));
         tasks.add(task);
@@ -116,6 +115,7 @@ public class TaskList {
         System.out.println("Got it. I've added this task: ");
         System.out.println(task.toString());
         System.out.println("Now you have " + tasks.size() + " tasks in the list");
+        System.out.println();
         Ui.printHorizontalLine();
     }
 
@@ -124,7 +124,7 @@ public class TaskList {
      *
      * @param command the event command with the description and the date and time of the event task
      */
-    public void addEvent(String command){
+    public void addEvent(String command) {
         int nameLength = 5;
         int indexAt = command.indexOf("/");
         int distanceAfterAt = 4;
@@ -135,6 +135,7 @@ public class TaskList {
         System.out.println("Got it. I've added this task: ");
         System.out.println(task.toString());
         System.out.println("Now you have " + tasks.size() + " tasks in the list");
+        System.out.println();
         Ui.printHorizontalLine();
     }
 
@@ -154,10 +155,15 @@ public class TaskList {
         System.out.println("Got it. I've added this task: ");
         System.out.println(task.toString());
         System.out.println("Now you have " + tasks.size() + " tasks in the list");
+        System.out.println();
         Ui.printHorizontalLine();
     }
 
-    public static void findTasks(String command){
+    /**
+     * Find tasks with certain keywords
+     * @param command command string from user input
+     */
+    public static void findTasks(String command) {
         int nameLength = 4;
         String keyWord = command.substring(nameLength + 1);
         ArrayList<Task> keywordTasks = (ArrayList<Task>) tasks.stream()

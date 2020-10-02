@@ -42,27 +42,27 @@ public class Parser {
                     throw new DukeException();
                 }
                 return TODO;
-            } else if (command.startsWith(DEADLINE)){
+            } else if (command.startsWith(DEADLINE)) {
                 if (infoEntered.length == 1 || !command.contains("/by")) {
                     throw new DukeException();
                 }
                 return DEADLINE;
-            } else if (command.startsWith(EVENT)){
+            } else if (command.startsWith(EVENT)) {
                 if (infoEntered.length == 1 || !command.contains("/at")) {
                     throw new DukeException();
                 }
                 return EVENT;
-            } else if (command.startsWith(DELETE)){
+            } else if (command.startsWith(DELETE)) {
                 if (infoEntered.length == 1) {
                     throw new DukeException();
                 }
                 return DELETE;
-            } else if (command.startsWith(DONE)){
+            } else if (command.startsWith(DONE)) {
                 if (infoEntered.length == 1) {
                     throw new DukeException();
                 }
                 return DONE;
-            } else if (command.startsWith(FIND)){
+            } else if (command.startsWith(FIND)) {
                 if (infoEntered.length == 1) {
                     throw new DukeException();
                 }
@@ -73,7 +73,7 @@ public class Parser {
                 Ui.printHorizontalLine();
                 return null;
             }
-        } catch (DukeException e){
+        } catch (DukeException e) {
             Ui.printHorizontalLine();
             System.out.println("OOPS!!! The description cannot be empty or invalid.\n");
             Ui.printHorizontalLine();

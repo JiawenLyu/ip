@@ -26,7 +26,7 @@ public class Storage {
      *
      * @param tasks task list contains all the information about the tasks
      */
-    public static void saveToFile(TaskList tasks){
+    public static void saveToFile(TaskList tasks) {
         try{
             FileWriter fw = new FileWriter(filepath);
             ArrayList<Task> tasksList = tasks.getTasksList();
@@ -34,7 +34,7 @@ public class Storage {
                 fw.write(task.saveToFile());
             }
             fw.close();
-        } catch (IOException e){
+        } catch (IOException e) {
             Ui.printHorizontalLine();
             System.out.println("Something went wrong: " + e.getMessage() + "\n");
             Ui.printHorizontalLine();
@@ -46,14 +46,14 @@ public class Storage {
      *
      * @param tasks the task list to load the the information to
      */
-    public void loadFromFile(TaskList tasks){
+    public void loadFromFile(TaskList tasks) {
         try{
             if (!f.exists()){
                 f.createNewFile();
             }
             Scanner s = new Scanner(f);
             Task task;
-            while(s.hasNext()){
+            while(s.hasNext()) {
                 String[] readTask = s.nextLine().split("\\|");
                 int INDEX_OF_TYPE = 0;
                 int INDEX_OF_STATUS = 1;
@@ -73,16 +73,16 @@ public class Storage {
                     task = new Task(readTask[INDEX_OF_BODY]);
                 }
 
-                if (readTask[INDEX_OF_STATUS].equals("true")){
+                if (readTask[INDEX_OF_STATUS].equals("true")) {
                     task.setIsDone(true);
                 }
                 tasks.add(task);
             }
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             Ui.printHorizontalLine();
             System.out.println("File not found\n");
             Ui.printHorizontalLine();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             Ui.printHorizontalLine();
             System.out.println("File creation failed\n");

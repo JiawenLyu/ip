@@ -10,7 +10,7 @@ public class Deadline extends Task {
      * @param description the String description of the task
      * @param by the deadline of the task
      */
-    public Deadline(String description, String by){
+    public Deadline(String description, String by) {
         super(description);
         this.by = parser.setDateFormat(by);
     }
